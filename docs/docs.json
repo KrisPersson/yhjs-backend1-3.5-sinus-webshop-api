@@ -1,0 +1,145 @@
+{
+    "info": {
+        "description": "API for Sinus Webshop",
+        "title": "Sinus Webshop API",
+        "version": "1.0.0"
+    },
+    "openapi": "3.0.0",
+    "components": {
+        "schemas": {
+            "Product": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "number"
+                    },
+                    "shortDesc": {
+                        "type": "string"
+                    },
+                    "category": {
+                        "type": "string"
+                    },
+                    "longDesc": {
+                        "type": "string"
+                    },
+                    "imgFile": {
+                        "type": "string"
+                    },
+                    "serial": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Order": {
+                "type": "object",
+                "properties": {
+                    "orderNr": {
+                        "type": "string"
+                    },
+                    "date": {
+                        "type": "string"
+                    }, 
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "$ref": "#/components/schemas/Product"
+                        }
+                    }
+                }
+            }	
+        }
+    },
+    "paths": {
+        "/api/products": {
+            "get": {
+                "description": null,
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "products": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Product"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Returns all products"
+                    }
+                },
+                "summary": "Returns all products"
+            }
+        },
+        "/api/orderhistory": {
+            "get": {
+                "description": null,
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "orderHistory": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Product"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Returns the order history"
+                    }
+                },
+                "summary": "Returns the order history"
+            }
+        },
+        "/api/shoppingcart": {
+            "get": {
+                "description": null,
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "cart": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Product"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Returns all products currently in the cart"
+                    }
+                },
+                "summary": "Returns all products currently in the cart"
+            }
+        }
+    }
+}
