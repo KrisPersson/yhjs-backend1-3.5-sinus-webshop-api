@@ -10,4 +10,3 @@ function getCurrentCart() {
 }
 
 module.exports = { shoppingCart, updateCart, getCurrentCart }
-

@@ -56,6 +56,7 @@
     "paths": {
         "/api/products": {
             "get": {
+                "tags": ["Products"],
                 "description": null,
                 "responses": {
                     "200": {
@@ -83,9 +84,10 @@
                 "summary": "Returns all products"
             }
         },
-        "/api/orderhistory": {
+        "/api/order/history": {
             "get": {
                 "description": null,
+                "tags": ["Order"],
                 "responses": {
                     "200": {
                         "content": {
@@ -115,6 +117,7 @@
         "/api/shoppingcart": {
             "get": {
                 "description": null,
+                "tags": ["Shopping Cart"],
                 "responses": {
                     "200": {
                         "content": {
@@ -139,7 +142,145 @@
                     }
                 },
                 "summary": "Returns all products currently in the cart"
+            },
+            "post": {
+                "description": null,
+                "tags": ["Shopping Cart"],
+                "requestBody": {
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "cart": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Product"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Adds a product to the shopping cart and returns the cart."
+                    }
+                },
+                "summary": "Adds a product to the shopping cart and returns the cart."
+            },
+            "delete": {
+                "description": null,
+                "tags": ["Shopping Cart"],
+                "requestBody": {
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "cart": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Product"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Removes a product from the shopping cart and returns the cart."
+                    } 
+                },
+                "summary": "Removes a product from the shopping cart and returns the cart."
+            }   
+        },
+        "/api/order": {
+            "post": {
+                "description": null,
+                "tags": ["Order"],
+                "requestBody": {
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "order": {
+                                            "type": "object",
+                                            "properties": {
+                                                "date": {
+                                                    "type": "string"
+                                                },
+                                                "orderNr": {
+                                                    "type": "number"
+                                                },
+                                                "items": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/Product"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Places an order and returns the order with a date and order number, along with an array of the ordered items"
+                    },
+                    "401": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "error": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description": "Unauthorized."
+                    }
+                },
+                "summary": "Places an order and returns the order with a date and order number, along with an array of the ordered items"
             }
         }
-    }
+    },
+    "tags": [
+        {
+            "name": "Products",
+            "description": ""
+        },
+        {
+            "name": "Order",
+            "description": ""
+        },
+        {
+            "name": "Shopping Cart",
+            "description": ""
+        }
+    ]
 }
