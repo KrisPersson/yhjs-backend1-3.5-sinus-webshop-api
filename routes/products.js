@@ -12,4 +12,5 @@ router.get('/', (request, response) => {  // GET All products
     response.json(result)
 })
 
-module.exports = { productsRouter: router } 
+module.exports = { productsRouter: router }
+ 

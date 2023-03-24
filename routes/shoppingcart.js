@@ -49,6 +49,4 @@ router.delete('/', checkCartBody, (request, response) => { // DELETE item from c
     response.json(result)
 })
 
-
-
 module.exports = { shoppingcartRouter: router } 

@@ -50,7 +50,25 @@
                         }
                     }
                 }
-            }	
+            },
+            "CartInput": {
+                "type": "object",
+                "properties": {
+                    "serial": {
+                        "type": "string",
+                        "example": "172381278381237"
+                    }
+                }
+            },
+            "OrderInput": {
+                "type": "object",
+                "properties": {
+                    "isAuthorized": {
+                        "type": "boolean",
+                        "example": "true"
+                    }
+                }
+            }		
         }
     },
     "paths": {
@@ -147,7 +165,14 @@
                 "description": null,
                 "tags": ["Shopping Cart"],
                 "requestBody": {
-                    "required": true
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CartInput" 
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
@@ -178,7 +203,14 @@
                 "description": null,
                 "tags": ["Shopping Cart"],
                 "requestBody": {
-                    "required": true
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CartInput" 
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {
@@ -211,7 +243,14 @@
                 "description": null,
                 "tags": ["Order"],
                 "requestBody": {
-                    "required": true
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OrderInput" 
+                            }
+                        }
+                    }
                 },
                 "responses": {
                     "200": {

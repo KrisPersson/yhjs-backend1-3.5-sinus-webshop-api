@@ -1,4 +1,5 @@
 const { getCurrentCart } = require('../cart')
+const { isProduct } = require('../utils')
 
 
 function checkCartBody(request, response, next) {
@@ -7,7 +8,12 @@ function checkCartBody(request, response, next) {
 
     if (!request.body.hasOwnProperty('serial')) {
         response.status(400).json({success: false, error: 'Wrong data in body'})
+        return
+    } else if (!isProduct(request.body.serial)) {
+        response.status(400).json({success: false, error: 'No product match for this serial number'})
+        return
     }
+    
 
     const serial = request.body.serial
 
@@ -48,7 +54,6 @@ function checkOrderBody(request, response, next) {
         response.status(400).json({success: false, error: 'Wrong data in body'})
     }
 }
-
 
 module.exports = {
     checkCartBody,

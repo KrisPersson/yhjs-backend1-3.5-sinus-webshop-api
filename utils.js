@@ -12,4 +12,16 @@ function compileCart(cart) {
     return compiledCart
 }
 
-module.exports = { compileCart }
+function isProduct(serialInput) {
+
+    let returnValue = false
+
+    allProducts.forEach(product => {
+        if (product.serial === serialInput) {
+            returnValue = true
+        }
+    })
+    return returnValue
+}
+
+module.exports = { compileCart, isProduct }
