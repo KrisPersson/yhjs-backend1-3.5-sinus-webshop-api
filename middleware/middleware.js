@@ -1,20 +1,19 @@
-const { getCurrentCart } = require('../cart')
 const { isProduct } = require('../utils')
+const { database, cartDbId } = require('../db.js')
 
+async function checkCartBody(request, response, next) {
 
-function checkCartBody(request, response, next) {
-
-    const shoppingCart = getCurrentCart()
+    const { shoppingCart } = await database.findOne( cartDbId )
+    const isProductVar = await isProduct(request.body.serial)
 
     if (!request.body.hasOwnProperty('serial')) {
         response.status(400).json({success: false, error: 'Wrong data in body'})
         return
-    } else if (!isProduct(request.body.serial)) {
+    } else if (!isProductVar) {
         response.status(400).json({success: false, error: 'No product match for this serial number'})
         return
     }
     
-
     const serial = request.body.serial
 
     switch (request.method) {
@@ -37,9 +36,9 @@ function checkCartBody(request, response, next) {
     }
 }
 
-function checkOrderBody(request, response, next) {
+async function checkOrderBody(request, response, next) {
 
-    const shoppingCart = getCurrentCart()
+    const { shoppingCart } = await database.findOne(cartDbId)
 
     if (shoppingCart.length < 1) {
         response.status(400).json({success: false, error: 'No products in cart'})

@@ -1,8 +1,9 @@
-const allProducts = require("./products.json")
+const {database, productsDbId} = require('./db.js')
 
-function compileCart(cart) {
-
+async function compileCart(cart) {
     const compiledCart = []
+    const getProducts = await database.find(productsDbId)
+    const allProducts = getProducts[0].products
 
     allProducts.forEach(product => {
         if (cart.includes(product.serial)) {
@@ -12,9 +13,11 @@ function compileCart(cart) {
     return compiledCart
 }
 
-function isProduct(serialInput) {
+async function isProduct(serialInput) {
 
     let returnValue = false
+    const getProducts = await database.find(productsDbId)
+    const allProducts = getProducts[0].products
 
     allProducts.forEach(product => {
         if (product.serial === serialInput) {

@@ -1,20 +1,13 @@
 const { Router } = require('express')
 const router = Router()
-
+const { database, orderHistoryDbId, cartDbId } = require('../db.js')
 const { checkOrderBody } = require('../middleware/middleware.js')
 const { compileCart } = require('../utils')
-const { getCurrentCart, updateCart } = require('../cart')
 
-let orderHistory = []
 
-function getOrderHistory() {
-    return orderHistory
-}
-function updateOrderHistory(newHistory) {
-    orderHistory = [...newHistory]
-}
+router.get('/history', async (request, response) => { // GET Order History
 
-router.get('/history', (request, response) => { // GET Order History
+    const { orderHistory } = await database.findOne(orderHistoryDbId)
 
     const result = {
         success: true,
@@ -23,14 +16,16 @@ router.get('/history', (request, response) => { // GET Order History
     response.json(result)
 })
 
-router.post('/', checkOrderBody, (request, response) => { // POST a new order
+router.post('/', checkOrderBody, async (request, response) => { // POST a new order
 
-    const orderHistory = getOrderHistory()
+    const { orderHistory } = await database.findOne(orderHistoryDbId)
+    const { shoppingCart } = await database.findOne(cartDbId)
+    const compiledCart = await compileCart(shoppingCart)
 
     const order = {
         date: new Date(),
         orderNr: orderHistory.length + 1,
-        items: compileCart(getCurrentCart())
+        items: compiledCart
     }
 
     const result = {
@@ -38,10 +33,11 @@ router.post('/', checkOrderBody, (request, response) => { // POST a new order
         order: order
     }
 
-    updateOrderHistory([...orderHistory, order])
-    updateCart([])
+    orderHistory.push(order)
+    database.update(orderHistoryDbId, { orderHistory: [...orderHistory] })
+    database.update(cartDbId, { shoppingCart: [] })
     
     response.json(result)
 })
 
-module.exports = { orderRouter: router, getOrderHistory, updateOrderHistory } 
+module.exports = { orderRouter: router } 
